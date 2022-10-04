@@ -1,0 +1,108 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = ContosoUniversity
+build_property.RootNamespace = ContosoUniversity
+build_property.ProjectDir = D:\PKL 2022\Training\ASP.NET Core 6\ContosoUniversity\ContosoUniversity\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\PKL 2022\Training\ASP.NET Core 6\ContosoUniversity\ContosoUniversity
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Courses/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Courses/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Courses/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Courses/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Courses/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Enrollments/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5yb2xsbWVudHNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Enrollments/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5yb2xsbWVudHNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Enrollments/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5yb2xsbWVudHNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Enrollments/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5yb2xsbWVudHNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Enrollments/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5yb2xsbWVudHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Home/About.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBYm91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Students/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Students/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Students/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Students/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Students/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PKL 2022/Training/ASP.NET Core 6/ContosoUniversity/ContosoUniversity/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-5unqkpzokm

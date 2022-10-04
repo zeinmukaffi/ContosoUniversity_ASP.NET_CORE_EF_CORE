@@ -1,0 +1,97 @@
+﻿@model PaginatedList<ContosoUniversity.Models.Course>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+<style>
+    table{
+        margin-top: 20px;
+    }
+
+    .table a{
+    text-decoration: none;
+    }
+
+    /*.opsi a:hover{
+    text-decoration: underline;
+    }*/
+
+    h2{
+        margin-bottom: 20px;
+    }
+
+    .tbl{
+        display: flex;
+        gap: 1rem;
+    }
+</style>
+
+<h2>Contoso University - Courses</h2>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by title: <input type="text" name="searchTitle" value="@ViewData["CurrentFilter"]" />
+            Find by credit: <input type="number" name="searchCredits" value="@ViewData["CurrentFilter2"]" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </p>
+    </div>
+</form>
+
+<div class="tbl">
+    <a asp-action="Create" class="btn btn-primary">Create New [+]</a>
+    <a asp-action="Index" class="btn btn-info text-white">Back to List</a>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr class="table-light">
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["TitleSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Title</a><span class="e-icons e-chevron-up-fill"></span>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["CreditSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Credits</a>
+            </th>
+            <th>Option</th>
+        </tr>
+    </thead>
+    <tbody class="opsi"> 
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Credits)
+            </td>
+            <td>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.CourseID">Edit</a> |
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.CourseID">Details</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CourseID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-currentFilter2="@ViewData["CurrentFilter2"]"
+   class="btn btn btn-dark @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-currentFilter2="@ViewData["CurrentFilter2"]"
+   class="btn btn btn-dark @nextDisabled">
+    Next
+</a>
