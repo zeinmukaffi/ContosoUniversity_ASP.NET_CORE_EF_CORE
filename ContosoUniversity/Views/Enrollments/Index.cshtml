@@ -31,9 +31,9 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by grade: @Html.DropDownList("SearchGrade",
-            new SelectList(Enum.GetValues(typeof(ContosoUniversity.Models.Grade))),
-            "Select Grade")
+            Find by grade: <select name="searchGrade" asp-items="Html.GetEnumSelectList<Grade>()">
+                    <option selected="selected">@ViewData["CurrentFilter"]</option>
+                </select>
             Find by course: <input type="text" name="searchCourse" value="@ViewData["CurrentFilter2"]" />
             Find by student: <input type="text" name="searchStudent" value="@ViewData["CurrentFilter3"]" />
             <input type="submit" value="Search" class="btn btn-primary" />
@@ -50,7 +50,7 @@
     <thead>
         <tr class="table-light">
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["GradeSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Grades</a><span class="e-icons e-chevron-up-fill"></span>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["GradeSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Grades</a><span class="e-icons e-chevron-up-fill"></span>
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["CourseSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Courses</a><span class="e-icons e-chevron-up-fill"></span>
