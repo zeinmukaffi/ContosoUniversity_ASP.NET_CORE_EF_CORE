@@ -189,38 +189,37 @@ namespace ContosoUniversity.Controllers
         // POST: Enrollments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EnrollmentID,CourseID,StudentID,Grade")] Enrollment enrollment)
+        public async Task<IActionResult> Edit(int? id, [Bind("EnrollmentID,CourseID,StudentID,Grade")] Enrollment enrollment)
         {
-            if (id != enrollment.EnrollmentID)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
+            var enrollToUpdate = await _context.Enrollments.FirstOrDefaultAsync(s => s.EnrollmentID == id);
+            if (await TryUpdateModelAsync<Enrollment>(
+            enrollToUpdate,
+            "",
+            s => s.Grade, s => s.CourseID, s => s.StudentID))
                 {
-                    _context.Update(enrollment);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EnrollmentExists(enrollment.EnrollmentID))
+                    try
                     {
-                        return NotFound();
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
                     }
-                    else
+                    catch (DbUpdateException /* ex */)
                     {
-                        throw;
+                        //Log the error (uncomment ex variable name and write a log.)
+                        ModelState.AddModelError("", "Unable to save changes. " +
+                            "Try again, and if the problem persists, " +
+                            "see your system administrator.");
                     }
                 }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CourseID"] = new SelectList(_context.Courses, "CourseID", "Title", enrollment.CourseID);
-            ViewData["StudentID"] = new SelectList(_context.Students, "ID", "FirstMidName", enrollment.StudentID);
-            return View(enrollment);
+            ViewData["CourseID"] = new SelectList(_context.Courses, "CourseID", "Title", enrollToUpdate.CourseID);
+            ViewData["StudentID"] = new SelectList(_context.Students, "ID", "FirstMidName", enrollToUpdate.StudentID);
+            return View(enrollToUpdate);
         }
 
         // GET: Enrollments/Delete/5
