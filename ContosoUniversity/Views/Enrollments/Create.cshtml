@@ -17,12 +17,14 @@
                 <select asp-for="CourseID" class ="form-control" asp-items="ViewBag.CourseID">
                     <option selected="selected" value="">Please select</option>
                 </select>
+                <span asp-validation-for="CourseID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Student</label>
                 <select asp-for="StudentID" class ="form-control" asp-items="ViewBag.StudentID">
                    <option selected="selected" value="">Please select</option>
                 </select>
+                <span asp-validation-for="StudentID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Grade</label>

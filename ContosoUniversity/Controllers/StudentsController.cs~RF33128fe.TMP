@@ -24,11 +24,9 @@ namespace ContosoUniversity.Controllers
             string sortOrder,
             string currentFilter,
             DateTime? currentFilter2,
-            DateTime? currentFilter4,
             string currentFilter3,
             string searchString,
             DateTime? searchDate,
-            DateTime? searchDate2,
             string searchString2,
             int? pageNumber
             )
@@ -55,15 +53,6 @@ namespace ContosoUniversity.Controllers
             {
                 searchDate = currentFilter2;
             }
-            
-            if (searchDate2 != null)
-            {
-                pageNumber = 1;
-            }
-            else
-            {
-                searchDate2 = currentFilter4;
-            }
 
             if (searchString2 != null)
             {
@@ -77,7 +66,6 @@ namespace ContosoUniversity.Controllers
             ViewData["CurrentFilter"] = searchString;
             ViewData["CurrentFilter2"] = searchDate;
             ViewData["CurrentFilter3"] = searchString2;
-            ViewData["CurrentFilter4"] = searchDate2;
 
             var students = from s in _context.Students
                            select s;
@@ -86,9 +74,9 @@ namespace ContosoUniversity.Controllers
                 students = students.Where(s => s.FirstMidName.Contains(searchString));
             }
 
-            if (searchDate != null && searchDate2 != null)
+            if (searchDate != null)
             {
-                students = students.Where(s => s.EnrollmentDate >= searchDate && s.EnrollmentDate <= searchDate2);
+                students = students.Where(s => s.EnrollmentDate == searchDate);
             }
 
             if (!String.IsNullOrEmpty(searchString2)) // search first name && last name

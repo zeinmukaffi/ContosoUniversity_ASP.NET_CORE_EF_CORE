@@ -32,9 +32,10 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by first name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
-            Find by last name: <input type="text" name="SearchString2" value="@ViewData["CurrentFilter3"]" />
-            Find by dates: <input type="date" name="SearchDate" value="@ViewData["CurrentFilter2"]" />
+            Find first name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            last name: <input type="text" name="SearchString2" value="@ViewData["CurrentFilter3"]" />
+            Find date from: <input type="date" name="SearchDate" value="@ViewData["CurrentFilter2"]" />
+            until: <input type="date" name="SearchDate2" value="@ViewData["CurrentFilter4"]" />
             <input type="submit" value="Search" class="btn btn-primary" />
         </p>
     </div>
@@ -49,13 +50,13 @@
     <thead>
         <tr class="table-light">
             <th class="table-light">
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["FirstSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">First Name</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["FirstSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]" asp-route-currentFilter4="@ViewData["CurrentFilter4"]">First Name</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Last Name</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]" asp-route-currentFilter4="@ViewData["CurrentFilter4"]">Last Name</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Enrollment Date</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]" asp-route-currentFilter4="@ViewData["CurrentFilter4"]">Enrollment Date</a>
             </th>
             <th>Opsi</th>
         </tr>
@@ -94,6 +95,7 @@
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    asp-route-currentFilter2="@ViewData["CurrentFilter2"]"
    asp-route-currentFilter3="@ViewData["CurrentFilter3"]"
+   asp-route-currentFilter4="@ViewData["CurrentFilter4"]"
    class="btn btn-dark @prevDisabled">
     Previous
 </a>
@@ -103,6 +105,7 @@
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    asp-route-currentFilter2="@ViewData["CurrentFilter2"]"
    asp-route-currentFilter3="@ViewData["CurrentFilter3"]"
+   asp-route-currentFilter4="@ViewData["CurrentFilter4"]"
    class="btn btn-dark @nextDisabled">
     Next
 </a>
