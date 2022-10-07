@@ -1,7 +1,9 @@
-﻿@model PaginatedList<ContosoUniversity.Models.Student>
+﻿@model ContosoUniversity.Models.SchoolViewModels.StudentVM
+
 
 @{
     ViewData["Title"] = "Students";
+    List<ContosoUniversity.Models.Student> students = ViewBag.students;
 }
 
 <style>
@@ -25,21 +27,52 @@
         display: flex;
         gap: 1rem;
     }
+
+    .box{
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 10px;
+    }
 </style>
 <h2>Contoso University - Students</h2>
 
-
-<form asp-action="Index" method="get">
+<form asp-action="IndexProses" asp-antiforgery="true" method="get">
     <div class="form-actions no-color">
-        <p>
-            Find first name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
-            last name: <input type="text" name="SearchString2" value="@ViewData["CurrentFilter3"]" />
-            Find date from: <input type="date" name="SearchDate" value="@ViewData["CurrentFilter2"]" />
-            until: <input type="date" name="SearchDate2" value="@ViewData["CurrentFilter4"]" />
+        <h4>Search By</h4>
+        <div class="box">
+            <div class="search">
+                <label asp-for="FirstMidName"></label>
+                <input name="FirstMidName" type="text" value="@ViewData["CurrentFilter"]"/>
+                <br />
+                <span asp-validation-for="FirstMidName" class="text-danger"></span>
+            </div>
+            
+            <div class="search">
+                <label asp-for="LastName"></label>
+                <input name="LastName" type="text" value="@ViewData["CurrentFilter2"]"/>
+                <br />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="search">
+                <label asp-for="EnrollmentDateFrom"></label>
+                <input name="EnrollmentDateFrom" type="date" value="@ViewData["CurrentFilter3"]"/>
+                <br />
+                <span asp-validation-for="EnrollmentDateFrom" class="text-danger"></span>
+            </div>
+
+            <div class="search">
+                <label asp-for="EnrollmentDateUntil"></label>
+                <input name="EnrollmentDateUntil" type="date" value="@ViewData["CurrentFilter4"]"/>
+                <br />
+                <span asp-validation-for="EnrollmentDateUntil" class="text-danger"></span>
+            </div>
+
             <input type="submit" value="Search" class="btn btn-primary" />
-        </p>
+        </div>
     </div>
 </form>
+
 
 <div class="tbl">
     <a asp-action="Create" class="btn btn-primary">Create New [+]</a>
@@ -50,19 +83,19 @@
     <thead>
         <tr class="table-light">
             <th class="table-light">
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["FirstSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]" asp-route-currentFilter4="@ViewData["CurrentFilter4"]">First Name</a>
+            @Html.ActionLink("First Name", "IndexProses", new { sortOrder = ViewBag.FirstSortParm, LastName = Model.LastName, FirstMidName = Model.FirstMidName, EnrollmentDateFrom = Model.EnrollmentDateFrom, EnrollmentDateUntil = Model.EnrollmentDateUntil })
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]" asp-route-currentFilter4="@ViewData["CurrentFilter4"]">Last Name</a>
+            @Html.ActionLink("last Name", "IndexProses", new { sortOrder = ViewBag.NameSortParm, LastName = Model.LastName, FirstMidName = Model.FirstMidName, EnrollmentDateFrom = Model.EnrollmentDateFrom, EnrollmentDateUntil = Model.EnrollmentDateUntil })
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]" asp-route-currentFilter4="@ViewData["CurrentFilter4"]">Enrollment Date</a>
+            @Html.ActionLink("Enrollment Date", "IndexProses", new { sortOrder = ViewBag.DateSortParm, LastName = Model.LastName, FirstMidName = Model.FirstMidName, EnrollmentDateFrom = Model.EnrollmentDateFrom, EnrollmentDateUntil = Model.EnrollmentDateUntil })
             </th>
             <th>Opsi</th>
         </tr>
     </thead>
     <tbody class="opsi">
-        @foreach (var item in Model)
+        @foreach (var item in students)
         {
             <tr>
                 <td>
@@ -83,29 +116,3 @@
         }
     </tbody>
 </table>
-
-@{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-}
-
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex - 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   asp-route-currentFilter2="@ViewData["CurrentFilter2"]"
-   asp-route-currentFilter3="@ViewData["CurrentFilter3"]"
-   asp-route-currentFilter4="@ViewData["CurrentFilter4"]"
-   class="btn btn-dark @prevDisabled">
-    Previous
-</a>
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex + 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   asp-route-currentFilter2="@ViewData["CurrentFilter2"]"
-   asp-route-currentFilter3="@ViewData["CurrentFilter3"]"
-   asp-route-currentFilter4="@ViewData["CurrentFilter4"]"
-   class="btn btn-dark @nextDisabled">
-    Next
-</a>

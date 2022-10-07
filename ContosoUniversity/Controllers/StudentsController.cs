@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ContosoUniversity.Data;
 using ContosoUniversity.Models;
+using ContosoUniversity.Models.SchoolViewModels;
 
 namespace ContosoUniversity.Controllers
 {
@@ -19,107 +20,55 @@ namespace ContosoUniversity.Controllers
             _context = context;
         }
 
+        public IActionResult Index()
+        {
+            ViewBag.students = _context.Students.ToList();
+            StudentVM model = new StudentVM();
+            return View(model);
+        }
+
         // GET: Students
-        public async Task<IActionResult> Index(
-            string sortOrder,
-            string currentFilter,
-            DateTime? currentFilter2,
-            DateTime? currentFilter4,
-            string currentFilter3,
-            string searchString,
-            DateTime? searchDate,
-            DateTime? searchDate2,
-            string searchString2,
-            int? pageNumber
-            )
+        public IActionResult IndexProses(string sortOrder, StudentVM model)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["FirstSortParm"] = String.IsNullOrEmpty(sortOrder) ? "first_desc" : "";
+            ViewData["CurrentFilter"] = model.FirstMidName;
+            ViewData["CurrentFilter2"] = model.LastName;
+            ViewData["CurrentFilter3"] = model.EnrollmentDateFrom;
+            ViewData["CurrentFilter4"] = model.EnrollmentDateUntil;
 
-            if (searchString != null)
-            {
-                pageNumber = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
+            IEnumerable<Student> students = from s in _context.Students
+                                            select s;
 
-            if (searchDate != null)
+            // sorting // 
+            students = sortOrder switch
             {
-                pageNumber = 1;
-            }
-            else
-            {
-                searchDate = currentFilter2;
-            }
-            
-            if (searchDate2 != null)
-            {
-                pageNumber = 1;
-            }
-            else
-            {
-                searchDate2 = currentFilter4;
-            }
+                "name" => students.OrderBy(s => s.LastName),// asc last name
+                "name_desc" => students.OrderByDescending(s => s.LastName),//desc last name
+                "first_desc" => students.OrderByDescending(s => s.FirstMidName),// desc first name
+                "Date" => students.OrderBy(s => s.EnrollmentDate),// asc date
+                "date_desc" => students.OrderByDescending(s => s.EnrollmentDate),// desc date
+                _ => students.OrderBy(s => s.FirstMidName),// asc first name
+            };
 
-            if (searchString2 != null)
+            // filtering
+            if (model.EnrollmentDateFrom != null && model.EnrollmentDateUntil != null)
             {
-                pageNumber = 1;
+                students = students.Where(s => s.EnrollmentDate >= model.EnrollmentDateFrom && s.EnrollmentDate <= model.EnrollmentDateUntil);
             }
-            else
+            if (!String.IsNullOrEmpty(model.LastName))
             {
-                searchString2 = currentFilter3;
+                students = students.Where(s => s.LastName.Contains(model.LastName));
+            }
+            if (!String.IsNullOrEmpty(model.FirstMidName))
+            {
+                students = students.Where(s => s.FirstMidName.Contains(model.FirstMidName));
             }
 
-            ViewData["CurrentFilter"] = searchString;
-            ViewData["CurrentFilter2"] = searchDate;
-            ViewData["CurrentFilter3"] = searchString2;
-            ViewData["CurrentFilter4"] = searchDate2;
-
-            var students = from s in _context.Students
-                           select s;
-            if (!String.IsNullOrEmpty(searchString)) // search first name && last name
-            {
-                students = students.Where(s => s.FirstMidName.Contains(searchString));
-            }
-
-            if (searchDate != null && searchDate2 != null)
-            {
-                students = students.Where(s => s.EnrollmentDate >= searchDate && s.EnrollmentDate <= searchDate2);
-            }
-
-            if (!String.IsNullOrEmpty(searchString2)) // search first name && last name
-            {
-                students = students.Where(s => s.LastName.Contains(searchString2));
-            }
-
-            switch (sortOrder)
-            {
-                case "name":
-                    students = students.OrderBy(s => s.LastName); // asc last name
-                    break;
-                case "name_desc":
-                    students = students.OrderByDescending(s => s.LastName); //desc last name
-                    break;
-                case "first_desc":
-                    students = students.OrderByDescending(s => s.FirstMidName); // desc first name
-                    break;
-                case "Date":
-                    students = students.OrderBy(s => s.EnrollmentDate); // asc date
-                    break;
-                case "date_desc":
-                    students = students.OrderByDescending(s => s.EnrollmentDate); // desc date
-                    break;
-                default:
-                    students = students.OrderBy(s => s.FirstMidName); // asc first name
-                    break;
-            }
-
-            int pageSize = 5;
-            return View(await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize));
+            ViewBag.students = students.ToList();
+            return View("Index", model);
         }
 
         // GET: Students/Details/5

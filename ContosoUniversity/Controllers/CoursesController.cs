@@ -66,22 +66,13 @@ namespace ContosoUniversity.Controllers
                 courses = courses.Where(s => s.Credits.ToString().Contains(searchCredits));
             }
 
-            switch (sortOrder)
+            courses = sortOrder switch
             {
-                case "credit":
-                    courses = courses.OrderBy(s => s.Credits); // asc credits
-                    break;
-                case "credit_desc":
-                    courses = courses.OrderByDescending(s => s.Credits); //desc credits
-                    break;
-                case "title_desc":
-                    courses = courses.OrderByDescending(s => s.Title); // desc title
-                    break;
-                default:
-                    courses = courses.OrderBy(s => s.Title); // asc title
-                    break;
-            }
-
+                "credit" => courses.OrderBy(s => s.Credits),// asc credits
+                "credit_desc" => courses.OrderByDescending(s => s.Credits),//desc credits
+                "title_desc" => courses.OrderByDescending(s => s.Title),// desc title
+                _ => courses.OrderBy(s => s.Title),// asc title
+            };
             int pageSize = 5;
             return View(await PaginatedList<Course>.CreateAsync(courses.AsNoTracking(), pageNumber ?? 1, pageSize));
         }

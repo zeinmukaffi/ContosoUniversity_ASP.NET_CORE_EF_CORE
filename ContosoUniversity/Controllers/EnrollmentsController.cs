@@ -84,28 +84,15 @@ namespace ContosoUniversity.Controllers
                                             || s.Student.LastName.Contains(searchStudent));
             }
 
-            switch (sortOrder)
+            enroll = sortOrder switch
             {
-                case "course":
-                    enroll = enroll.OrderBy(s => s.Course.Title); // asc title
-                    break;
-                case "course_desc":
-                    enroll = enroll.OrderByDescending(s => s.Course.Title); //desc last name
-                    break;
-                case "grade_desc":
-                    enroll = enroll.OrderByDescending(s => s.Grade); // desc grade
-                    break;
-                case "grade":
-                    enroll = enroll.OrderBy(s => s.Grade); // asc grade
-                    break;
-                case "student_desc":
-                    enroll = enroll.OrderByDescending(s => s.Student.FirstMidName); // desc first name
-                    break;
-                default:
-                    enroll = enroll.OrderBy(s => s.Student.FirstMidName); // asc first name
-                    break;
-            }
-
+                "course" => enroll.OrderBy(s => s.Course.Title),// asc title
+                "course_desc" => enroll.OrderByDescending(s => s.Course.Title),//desc last name
+                "grade_desc" => enroll.OrderByDescending(s => s.Grade),// desc grade
+                "grade" => enroll.OrderBy(s => s.Grade),// asc grade
+                "student_desc" => enroll.OrderByDescending(s => s.Student.FirstMidName),// desc first name
+                _ => enroll.OrderBy(s => s.Student.FirstMidName),// asc first name
+            };
             int pageSize = 5;
             return View(await PaginatedList<Enrollment>.CreateAsync(enroll.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
