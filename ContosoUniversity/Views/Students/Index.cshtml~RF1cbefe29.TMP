@@ -1,0 +1,137 @@
+﻿@model ContosoUniversity.Models.SchoolViewModels.StudentVM
+
+
+@{
+    ViewData["Title"] = "Students";
+    PaginatedList<Student> students = ViewBag.students;
+}
+
+<style>
+    table{
+        margin-top: 20px;
+    }
+
+    .table a{
+    text-decoration: none;
+    }
+
+    /*.opsi a:hover{
+    text-decoration: underline;
+    }*/
+    
+    h2{
+        margin-bottom: 20px;
+    }
+
+    .tbl{
+        display: flex;
+        gap: 1rem;
+    }
+
+    .box{
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 10px;
+    }
+</style>
+<h2>Contoso University - Students</h2>
+
+<form asp-action="IndexProses" asp-antiforgery="true" method="get">
+    <div class="form-actions no-color">
+        <h4>Search By</h4>
+        <div class="box">
+            <div class="search">
+                <label asp-for="FirstMidName"></label>
+                <input name="FirstMidName" type="text" value="@ViewData["CurrentFilter"]"/>
+                <br />
+                <span asp-validation-for="FirstMidName" class="text-danger"></span>
+            </div>
+            
+            <div class="search">
+                <label asp-for="LastName"></label>
+                <input name="LastName" type="text" value="@ViewData["CurrentFilter2"]"/>
+                <br />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="search">
+                <label asp-for="EnrollmentDateFrom"></label>
+                <input name="EnrollmentDateFrom" type="date" value="@ViewData["CurrentFilter3"]"/>
+                <br />
+                <span asp-validation-for="EnrollmentDateFrom" class="text-danger"></span>
+            </div>
+
+            <div class="search">
+                <label asp-for="EnrollmentDateUntil"></label>
+                <input name="EnrollmentDateUntil" type="date" value="@ViewData["CurrentFilter4"]"/>
+                <br />
+                <span asp-validation-for="EnrollmentDateUntil" class="text-danger"></span>
+            </div>
+
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+
+<div class="tbl">
+    <a asp-action="Create" class="btn btn-primary">Create New [+]</a>
+    <a asp-action="Index" class="btn btn-info text-white">Back to List</a>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr class="table-light">
+            <th class="table-light">
+            <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["FirstSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">First Name</a>
+            </th>
+            <th>
+            <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]">Last Name</a>
+            </th>
+            <th>
+            <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Enrollment Date</a>
+            </th>
+            <th>Opsi</th>
+        </tr>
+    </thead>
+    <tbody class="opsi">
+        @foreach (var item in students)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstMidName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EnrollmentDate)
+                </td>
+                <td>
+                    <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a class="btn btn-info text-white" asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@{
+    var prevDisabled = !students.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !students.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(students.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(students.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

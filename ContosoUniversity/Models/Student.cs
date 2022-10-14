@@ -8,13 +8,12 @@ namespace ContosoUniversity.Models
     {
         public int ID { get; set; }
 
-        [Required] 
+        [Required] // attribute
         public string LastName { get; set; }
-        [Required] 
+        [Required] // attribute
         public string FirstMidName { get; set; }
-        [Required] 
+        [Required] // attribute
         public DateTime EnrollmentDate { get; set; }
-
         public ICollection<Enrollment> Enrollments { get; set; }
 
     }

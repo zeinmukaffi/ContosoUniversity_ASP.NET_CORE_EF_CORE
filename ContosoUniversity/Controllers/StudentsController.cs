@@ -20,40 +20,67 @@ namespace ContosoUniversity.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
-            ViewBag.students = _context.Students.ToList();
-            StudentVM model = new StudentVM();
-            return View(model);
-        }
-
-        // GET: Students
-        public IActionResult IndexProses(string sortOrder, StudentVM model)
+        // action to View => Students => Index
+        public async Task<IActionResult> Index( 
+            StudentVM model,
+            string sortOrder, 
+            string currentFilter,
+            string currentFilter2,
+            DateTime? currentFilter3,
+            DateTime? currentFilter4, 
+            int? pageNumber
+            )
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["FirstSortParm"] = String.IsNullOrEmpty(sortOrder) ? "first_desc" : "";
+
+            // paging //
+            if (model.FirstMidName != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                model.FirstMidName = currentFilter;
+            }
+
+            if (model.LastName != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                model.LastName = currentFilter2;
+            }
+
+            if (model.EnrollmentDateFrom != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                model.EnrollmentDateFrom = currentFilter3;
+            }
+
+            if (model.EnrollmentDateUntil != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                model.EnrollmentDateUntil = currentFilter4;
+            }
+
             ViewData["CurrentFilter"] = model.FirstMidName;
             ViewData["CurrentFilter2"] = model.LastName;
             ViewData["CurrentFilter3"] = model.EnrollmentDateFrom;
             ViewData["CurrentFilter4"] = model.EnrollmentDateUntil;
+            var students = from s in _context.Students
+                           select s;
 
-            IEnumerable<Student> students = from s in _context.Students
-                                            select s;
-
-            // sorting // 
-            students = sortOrder switch
-            {
-                "name" => students.OrderBy(s => s.LastName),// asc last name
-                "name_desc" => students.OrderByDescending(s => s.LastName),//desc last name
-                "first_desc" => students.OrderByDescending(s => s.FirstMidName),// desc first name
-                "Date" => students.OrderBy(s => s.EnrollmentDate),// asc date
-                "date_desc" => students.OrderByDescending(s => s.EnrollmentDate),// desc date
-                _ => students.OrderBy(s => s.FirstMidName),// asc first name
-            };
-
-            // filtering
+            // filtering //
             if (model.EnrollmentDateFrom != null && model.EnrollmentDateUntil != null)
             {
                 students = students.Where(s => s.EnrollmentDate >= model.EnrollmentDateFrom && s.EnrollmentDate <= model.EnrollmentDateUntil);
@@ -67,8 +94,26 @@ namespace ContosoUniversity.Controllers
                 students = students.Where(s => s.FirstMidName.Contains(model.FirstMidName));
             }
 
-            ViewBag.students = students.ToList();
-            return View("Index", model);
+            // sorting // 
+            students = sortOrder switch
+            {
+                "name" => students.OrderBy(s => s.LastName),// asc last name
+                "name_desc" => students.OrderByDescending(s => s.LastName),//desc last name
+                "first_desc" => students.OrderByDescending(s => s.FirstMidName),// desc first name
+                "Date" => students.OrderBy(s => s.EnrollmentDate),// asc date
+                "date_desc" => students.OrderByDescending(s => s.EnrollmentDate),// desc date
+                _ => students.OrderBy(s => s.FirstMidName),// asc first name
+            };
+
+            model.StundentList = new List<Student>();
+            foreach (var student in students)
+            {
+                model.StundentList.Add(student);
+            }
+            int pageSize = 5;
+            var paged = await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize);
+            ViewBag.students = paged;
+            return View(model);
         }
 
         // GET: Students/Details/5
@@ -229,5 +274,6 @@ namespace ContosoUniversity.Controllers
         {
             return _context.Students.Any(e => e.ID == id);
         }
+
     }
 }

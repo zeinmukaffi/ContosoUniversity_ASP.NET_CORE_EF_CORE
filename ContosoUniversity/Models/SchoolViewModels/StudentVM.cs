@@ -3,19 +3,22 @@ using System.Xml.Linq;
 
 namespace ContosoUniversity.Models.SchoolViewModels
 {
+
     public class StudentVM : IValidatableObject
     {
-        [Display(Name = "Last Name :")]
-        public string LastName { get; set; }
+        public List<Student> StundentList { get; set; }
 
-        [Display(Name = "First Name :")]
+        [Display(Name = "Last Name :")] // attribute
+        public string LastName { get; set; } 
+         
+        [Display(Name = "First Name :")] // attribute
         public string FirstMidName { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date)] // attribute
         [Display(Name = "Date From :")]
         public DateTime? EnrollmentDateFrom { get; set; } // ? (NULLABLE)
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date)] // attribute
         [Display(Name = "Until :")]
         public DateTime? EnrollmentDateUntil { get; set; } // ? (NULLABLE)
 
@@ -45,5 +48,6 @@ namespace ContosoUniversity.Models.SchoolViewModels
             }
         }
     }
+
 
 }

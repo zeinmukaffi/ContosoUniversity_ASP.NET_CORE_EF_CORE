@@ -1,0 +1,138 @@
+﻿@model ContosoUniversity.Models.SchoolViewModels.StudentVM
+
+
+@{
+    ViewData["Title"] = "Students";
+}
+
+<style>
+    table{
+        margin-top: 20px;
+    }
+
+    .table a{
+    text-decoration: none;
+    }
+
+    /*.opsi a:hover{
+    text-decoration: underline;
+    }*/
+    
+    h2{
+        margin-bottom: 20px;
+    }
+
+    .tbl{
+        display: flex;
+        gap: 1rem;
+    }
+
+    .box{
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 10px;
+    }
+</style>
+<h2>Contoso University - Students</h2>
+
+<form asp-action="IndexProses" asp-antiforgery="true" method="get">
+    <div class="form-actions no-color">
+        <h4>Search By</h4>
+        <div class="box">
+            <div class="search">
+                <label asp-for="FirstMidName"></label>
+                <input name="FirstMidName" type="text" value="@ViewData["CurrentFilter"]"/>
+                <br />
+                <span asp-validation-for="FirstMidName" class="text-danger"></span>
+            </div>
+            
+            <div class="search">
+                <label asp-for="LastName"></label>
+                <input name="LastName" type="text" value="@ViewData["CurrentFilter2"]"/>
+                <br />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="search">
+                <label asp-for="EnrollmentDateFrom"></label>
+                <input name="EnrollmentDateFrom" type="date" value="@ViewData["CurrentFilter3"]"/>
+                <br />
+                <span asp-validation-for="EnrollmentDateFrom" class="text-danger"></span>
+            </div>
+
+            <div class="search">
+                <label asp-for="EnrollmentDateUntil"></label>
+                <input name="EnrollmentDateUntil" type="date" value="@ViewData["CurrentFilter4"]"/>
+                <br />
+                <span asp-validation-for="EnrollmentDateUntil" class="text-danger"></span>
+            </div>
+
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+
+<div class="tbl">
+    <a asp-action="Create" class="btn btn-primary">Create New [+]</a>
+    <a asp-action="Index" class="btn btn-info text-white">Back to List</a>
+</div>
+
+<form asp-action="Index" asp-controller="Students" method="post">
+    <table class="table table-hover">
+        <thead>
+            <tr class="table-light">
+                <th class="table-light">
+                    @Html.ActionLink("First Name", "IndexProses", new { sortOrder = ViewBag.FirstSortParm, FirstMidName = Model.FirstMidName, LastName = Model.LastName, EnrollmentDateFrom = Model.EnrollmentDateFrom, EnrollmentDateUntil = Model.EnrollmentDateUntil })
+                </th>
+                <th>
+                @Html.ActionLink("Last Name", "IndexProses", new { sortOrder = ViewBag.NameSortParm, FirstMidName = Model.FirstMidName, LastName = Model.LastName, EnrollmentDateFrom = Model.EnrollmentDateFrom, EnrollmentDateUntil = Model.EnrollmentDateUntil })
+                </th>
+                <th>
+                @Html.ActionLink("Enrollment Date", "IndexProses", new { sortOrder = ViewBag.DateSortParm, FirstMidName = Model.FirstMidName, LastName = Model.LastName, EnrollmentDateFrom = Model.EnrollmentDateFrom, EnrollmentDateUntil = Model.EnrollmentDateUntil })
+                </th>
+                <th>Opsi</th>
+            </tr>
+        </thead>
+        <tbody class="opsi">
+            @foreach (var item in Model.StundentList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstMidName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnrollmentDate)
+                    </td>
+                    <td>
+                        <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a class="btn btn-info text-white" asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <ul class="pagination">
+        @for(int i=1; i<=Model.pageCount; i++)
+        {
+            <li class="page-item">
+                @if(i != Model.currentPageIndex)
+                {
+                    <a class="page-link" href="">@i</a>
+                }
+            </li>
+        }
+    </ul>
+    <input type="hidden" id="hfCurrentPageIndex" name="currentPageIndex"/>
+</form>
+
+<script type="text/javascript">
+    function PagerClick(index){
+        document.getElementById("hfCurrentPageIndex").nodeValue=index;
+        document.forms[0].submit();
+    }
+</script>

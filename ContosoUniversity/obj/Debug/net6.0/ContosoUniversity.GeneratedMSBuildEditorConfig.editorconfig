@@ -11,7 +11,7 @@ build_property.RootNamespace = ContosoUniversity
 build_property.ProjectDir = D:\PKL 2022\Training\ASP.NET Core 6\ContosoUniversity\ContosoUniversity\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
-build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
 build_property.MSBuildProjectDirectory = D:\PKL 2022\Training\ASP.NET Core 6\ContosoUniversity\ContosoUniversity
 build_property._RazorSourceGeneratorDebug = 
 
