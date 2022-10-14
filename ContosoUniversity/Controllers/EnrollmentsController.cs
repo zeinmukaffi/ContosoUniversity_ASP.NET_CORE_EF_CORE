@@ -21,7 +21,16 @@ namespace ContosoUniversity.Controllers
         }
 
         // GET: Enrollments
-        public async Task<IActionResult> Index(
+        public async Task<ActionResult> Index(int? pageNumber)
+        {
+            var enroll = _context.Enrollments;
+            EnrollmentVM model = new EnrollmentVM();
+            int pageSize = 5;
+            var paged = await PaginatedList<Enrollment>.CreateAsync(enroll.AsNoTracking(), pageNumber ?? 1, pageSize);
+            ViewBag.enroll = paged;
+            return View(model);
+        }
+        public async Task<IActionResult> IndexProses(
             string sortOrder,
             EnrollmentVM model,
             Grade? searchGrade,
@@ -102,7 +111,7 @@ namespace ContosoUniversity.Controllers
             int pageSize = 5;
             var paged = await PaginatedList<Enrollment>.CreateAsync(enroll.AsNoTracking(), pageNumber ?? 1, pageSize);
             ViewBag.enroll = paged;
-            return View(model);
+            return View("Index", model);
         }
 
         // GET: Enrollments/Details/5

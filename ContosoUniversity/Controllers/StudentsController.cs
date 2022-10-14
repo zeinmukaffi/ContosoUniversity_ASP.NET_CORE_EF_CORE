@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ContosoUniversity.Data;
 using ContosoUniversity.Models;
 using ContosoUniversity.Models.SchoolViewModels;
+using System.Drawing.Printing;
 
 namespace ContosoUniversity.Controllers
 {
@@ -21,7 +22,16 @@ namespace ContosoUniversity.Controllers
         }
 
         // action to View => Students => Index
-        public async Task<IActionResult> Index( 
+        public async Task<ActionResult> Index(int? pageNumber)
+        {
+            var students = _context.Students;
+            StudentVM model = new StudentVM();
+            int pageSize = 5;
+            var paged = await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize);
+            ViewBag.students = paged;
+            return View(model);
+        }
+        public async Task<IActionResult> IndexProses( 
             StudentVM model,
             string sortOrder, 
             string currentFilter,
@@ -113,7 +123,7 @@ namespace ContosoUniversity.Controllers
             int pageSize = 5;
             var paged = await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize);
             ViewBag.students = paged;
-            return View(model);
+            return View("Index", model);
         }
 
         // GET: Students/Details/5

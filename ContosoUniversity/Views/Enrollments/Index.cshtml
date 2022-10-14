@@ -1,7 +1,7 @@
 ﻿@model ContosoUniversity.Models.SchoolViewModels.EnrollmentVM
 
 @{
-    ViewData["Title"] = "Students";
+    ViewData["Title"] = "Enrollment";
     PaginatedList<Enrollment> paged = ViewBag.enroll;
 }
 
@@ -31,7 +31,7 @@
 </style>
 @*<select name="searchGrade" asp-items="Html.GetEnumSelectList<Grade>()">*@
 <h2>Contoso University - Enrollments</h2>
-<form asp-action="Index" asp-antiforgery="true" method="get">
+<form asp-action="IndexProses" asp-antiforgery="true" method="get">
         <h4>Search By</h4>
         <div class="box">
             <div class="search">
@@ -69,13 +69,13 @@
     <thead>
         <tr class="table-light">
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["GradeSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Grades</a><span class="e-icons e-chevron-up-fill"></span>
+                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["GradeSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Grades</a><span class="e-icons e-chevron-up-fill"></span>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["CourseSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Courses</a><span class="e-icons e-chevron-up-fill"></span>
+                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["CourseSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Courses</a><span class="e-icons e-chevron-up-fill"></span>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["StudentSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Students</a>
+                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["StudentSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Students</a>
             </th>
             <th>Opsi</th>
         </tr>
@@ -108,7 +108,7 @@
     var nextDisabled = !paged.HasNextPage ? "disabled" : "";
 }
 
-<a asp-action="Index"
+<a asp-action="IndexProses"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-sortOrder="@ViewData["StudentSortParm"]"
    asp-route-sortOrder="@ViewData["CourseSortParm"]"
@@ -120,7 +120,7 @@
    class="btn btn btn-dark @prevDisabled">
     Previous
 </a>
-<a asp-action="Index"
+<a asp-action="IndexProses"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-sortOrder="@ViewData["StudentSortParm"]"
    asp-route-sortOrder="@ViewData["CourseSortParm"]"

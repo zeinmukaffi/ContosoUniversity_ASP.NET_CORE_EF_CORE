@@ -21,7 +21,17 @@ namespace ContosoUniversity.Controllers
         }
 
         // GET: Courses
-        public async Task<IActionResult> Index(
+        public async Task<ActionResult> Index(int? pageNumber)
+        {
+            var courses = _context.Courses;
+            CourseVM model = new CourseVM();
+            int pageSize = 5;
+            var paged = await PaginatedList<Course>.CreateAsync(courses.AsNoTracking(), pageNumber ?? 1, pageSize);
+            ViewBag.courses = paged;
+            return View(model);
+        }
+
+        public async Task<IActionResult> IndexProses(
             CourseVM model,
             string sortOrder,
             string currentFilter,
@@ -82,7 +92,7 @@ namespace ContosoUniversity.Controllers
             int pageSize = 5;
             var paged = await PaginatedList<Course>.CreateAsync(courses.AsNoTracking(), pageNumber ?? 1, pageSize);
             ViewBag.courses = paged;
-            return View(model);
+            return View("Index", model);
         }
 
         // GET: Courses/Details/5
