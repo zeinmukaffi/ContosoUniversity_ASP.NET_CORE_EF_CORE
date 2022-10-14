@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ContosoUniversity.Data;
 using ContosoUniversity.Models;
+using ContosoUniversity.Models.SchoolViewModels;
 
 namespace ContosoUniversity.Controllers
 {
@@ -22,12 +23,11 @@ namespace ContosoUniversity.Controllers
         // GET: Enrollments
         public async Task<IActionResult> Index(
             string sortOrder,
+            EnrollmentVM model,
+            Grade? searchGrade,
             Grade? currentFilter,
             string currentFilter2,
             string currentFilter3,
-            Grade? searchGrade,
-            string searchCourse,
-            string searchStudent,
             int? pageNumber
             )
         {
@@ -45,27 +45,27 @@ namespace ContosoUniversity.Controllers
                 searchGrade = currentFilter;
             }
 
-            if (searchCourse != null)
+            if (model.Course != null)
             {
                 pageNumber = 1;
             }
             else
             {
-                searchCourse = currentFilter2;
+                model.Course = currentFilter2;
             }
 
-            if (searchStudent != null)
+            if (model.Student != null)
             {
                 pageNumber = 1;
             }
             else
             {
-                searchStudent = currentFilter3;
+                model.Student = currentFilter3;
             }
 
             ViewData["CurrentFilter"] = searchGrade;
-            ViewData["CurrentFilter2"] = searchCourse;
-            ViewData["CurrentFilter3"] = searchStudent;
+            ViewData["CurrentFilter2"] = model.Course;
+            ViewData["CurrentFilter3"] = model.Student;
 
             var enroll = from s in _context.Enrollments.Include(e => e.Course).Include(e => e.Student) 
                          select s;
@@ -74,14 +74,14 @@ namespace ContosoUniversity.Controllers
             {
                 enroll = enroll.Where(s => s.Grade == searchGrade);
             }
-            if (!String.IsNullOrEmpty(searchCourse))
+            if (!String.IsNullOrEmpty(model.Course))
             {
-                enroll = enroll.Where(s => s.Course.Title.Contains(searchCourse));
+                enroll = enroll.Where(s => s.Course.Title.Contains(model.Course));
             }
-            if (!String.IsNullOrEmpty(searchStudent))
+            if (!String.IsNullOrEmpty(model.Student))
             {
-                enroll = enroll.Where(s => s.Student.FirstMidName.Contains(searchStudent) 
-                                            || s.Student.LastName.Contains(searchStudent));
+                enroll = enroll.Where(s => s.Student.FirstMidName.Contains(model.Student) 
+                                            || s.Student.LastName.Contains(model.Student));
             }
 
             enroll = sortOrder switch
@@ -93,8 +93,16 @@ namespace ContosoUniversity.Controllers
                 "student_desc" => enroll.OrderByDescending(s => s.Student.FirstMidName),// desc first name
                 _ => enroll.OrderBy(s => s.Student.FirstMidName),// asc first name
             };
+
+            model.EnrollmentList = new List<Enrollment>();
+            foreach (var enr in enroll)
+            {
+                model.EnrollmentList.Add(enr);
+            }
             int pageSize = 5;
-            return View(await PaginatedList<Enrollment>.CreateAsync(enroll.AsNoTracking(), pageNumber ?? 1, pageSize));
+            var paged = await PaginatedList<Enrollment>.CreateAsync(enroll.AsNoTracking(), pageNumber ?? 1, pageSize);
+            ViewBag.enroll = paged;
+            return View(model);
         }
 
         // GET: Enrollments/Details/5

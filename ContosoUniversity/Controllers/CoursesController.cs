@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ContosoUniversity.Data;
 using ContosoUniversity.Models;
+using ContosoUniversity.Models.SchoolViewModels;
 
 namespace ContosoUniversity.Controllers
 {
@@ -21,11 +22,10 @@ namespace ContosoUniversity.Controllers
 
         // GET: Courses
         public async Task<IActionResult> Index(
+            CourseVM model,
             string sortOrder,
             string currentFilter,
             string currentFilter2,
-            string searchTitle,
-            string searchCredits,
             int? pageNumber
             )
         {
@@ -33,37 +33,37 @@ namespace ContosoUniversity.Controllers
             ViewData["CreditSortParm"] = sortOrder == "credit" ? "credit_desc" : "credit";
             ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
 
-            if (searchTitle != null)
+            if (model.Title != null)
             {
                 pageNumber = 1;
             }
             else
             {
-                searchTitle = currentFilter;
+                model.Title = currentFilter;
             }
 
-            if (searchCredits != null)
+            if (model.Credit != null)
             {
                 pageNumber = 1;
             }
             else
             {
-                searchCredits = currentFilter2;
+                model.Credit = currentFilter2;
             }
 
-            ViewData["CurrentFilter"] = searchTitle;
-            ViewData["CurrentFilter2"] = searchCredits;
+            ViewData["CurrentFilter"] = model.Title;
+            ViewData["CurrentFilter2"] = model.Credit;
             var courses = from s in _context.Courses
                            select s;
 
-            if (!String.IsNullOrEmpty(searchTitle)) // search title
+            if (!String.IsNullOrEmpty(model.Title)) // search title
             {
-                courses = courses.Where(s => s.Title.Contains(searchTitle));
+                courses = courses.Where(s => s.Title.Contains(model.Title));
             }
 
-            if (!String.IsNullOrEmpty(searchCredits)) // search credit
+            if (!String.IsNullOrEmpty(model.Credit)) // search credit
             {
-                courses = courses.Where(s => s.Credits.ToString().Contains(searchCredits));
+                courses = courses.Where(s => s.Credits.ToString().Contains(model.Credit));
             }
 
             courses = sortOrder switch
@@ -73,8 +73,16 @@ namespace ContosoUniversity.Controllers
                 "title_desc" => courses.OrderByDescending(s => s.Title),// desc title
                 _ => courses.OrderBy(s => s.Title),// asc title
             };
+
+            model.CourseList = new List<Course>();
+            foreach (var course in courses)
+            {
+                model.CourseList.Add(course);
+            }
             int pageSize = 5;
-            return View(await PaginatedList<Course>.CreateAsync(courses.AsNoTracking(), pageNumber ?? 1, pageSize));
+            var paged = await PaginatedList<Course>.CreateAsync(courses.AsNoTracking(), pageNumber ?? 1, pageSize);
+            ViewBag.courses = paged;
+            return View(model);
         }
 
         // GET: Courses/Details/5

@@ -1,7 +1,8 @@
-﻿@model PaginatedList<ContosoUniversity.Models.Enrollment>
+﻿@model ContosoUniversity.Models.SchoolViewModels.EnrollmentVM
 
 @{
-    ViewData["Title"] = "Enrollments";
+    ViewData["Title"] = "Students";
+    PaginatedList<Enrollment> paged = ViewBag.enroll;
 }
 
 <style>
@@ -12,11 +13,7 @@
     .table a{
     text-decoration: none;
     }
-
-    /*.opsi a:hover{
-    text-decoration: underline;
-    }*/
-
+    
     h2{
         margin-bottom: 20px;
     }
@@ -25,20 +22,42 @@
         display: flex;
         gap: 1rem;
     }
-</style>
 
+    .box{
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 10px;
+    }
+</style>
+@*<select name="searchGrade" asp-items="Html.GetEnumSelectList<Grade>()">*@
 <h2>Contoso University - Enrollments</h2>
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Find by grade: <select name="searchGrade" asp-items="Html.GetEnumSelectList<Grade>()">
+<form asp-action="Index" asp-antiforgery="true" method="get">
+        <h4>Search By</h4>
+        <div class="box">
+            <div class="search">
+                <label asp-for="Grade"></label>
+                <select name="searchGrade" asp-items="Html.GetEnumSelectList<Grade>()">
                     <option selected="selected">@ViewData["CurrentFilter"]</option>
                 </select>
-            Find by course: <input type="text" name="searchCourse" value="@ViewData["CurrentFilter2"]" />
-            Find by student: <input type="text" name="searchStudent" value="@ViewData["CurrentFilter3"]" />
+                <br />
+                <span asp-validation-for="Grade" class="text-danger"></span>
+            </div>
+            
+            <div class="search">
+                <label asp-for="Course"></label>
+                <input name="Course" type="text" value="@ViewData["CurrentFilter2"]"/>
+                <br />
+                <span asp-validation-for="Course" class="text-danger"></span>
+            </div
+            
+            ><div class="search">
+                <label asp-for="Student"></label>
+                <input name="Student" type="text" value="@ViewData["CurrentFilter3"]"/>
+                <br />
+                <span asp-validation-for="Student" class="text-danger"></span>
+            </div>
             <input type="submit" value="Search" class="btn btn-primary" />
-        </p>
-    </div>
+        </div>
 </form>
 
 <div class="tbl">
@@ -62,7 +81,7 @@
         </tr>
     </thead>
     <tbody class="opsi">
-@foreach (var item in Model) {
+@foreach (var item in paged) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Grade)
@@ -85,13 +104,16 @@
 </table>
 
 @{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var prevDisabled = !paged.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !paged.HasNextPage ? "disabled" : "";
 }
 
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-sortOrder="@ViewData["StudentSortParm"]"
+   asp-route-sortOrder="@ViewData["CourseSortParm"]"
+   asp-route-sortOrder="@ViewData["GradeSortParm"]"
+   asp-route-pageNumber="@(paged.PageIndex - 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    asp-route-currentFilter2="@ViewData["CurrentFilter2"]"
    asp-route-currentFilter3="@ViewData["CurrentFilter3"]"
@@ -100,7 +122,10 @@
 </a>
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-sortOrder="@ViewData["StudentSortParm"]"
+   asp-route-sortOrder="@ViewData["CourseSortParm"]"
+   asp-route-sortOrder="@ViewData["GradeSortParm"]"
+   asp-route-pageNumber="@(paged.PageIndex + 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    asp-route-currentFilter2="@ViewData["CurrentFilter2"]"
    asp-route-currentFilter3="@ViewData["CurrentFilter3"]"

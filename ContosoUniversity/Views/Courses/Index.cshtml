@@ -1,8 +1,10 @@
-﻿@model PaginatedList<ContosoUniversity.Models.Course>
+﻿@model ContosoUniversity.Models.SchoolViewModels.CourseVM
 
 @{
-    ViewData["Title"] = "Courses";
+    ViewData["Title"] = "Students";
+    PaginatedList<Course> paged = ViewBag.courses;
 }
+
 <style>
     table{
         margin-top: 20px;
@@ -11,11 +13,7 @@
     .table a{
     text-decoration: none;
     }
-
-    /*.opsi a:hover{
-    text-decoration: underline;
-    }*/
-
+    
     h2{
         margin-bottom: 20px;
     }
@@ -24,17 +22,33 @@
         display: flex;
         gap: 1rem;
     }
+
+    .box{
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 10px;
+    }
 </style>
 
 <h2>Contoso University - Courses</h2>
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Find by title: <input type="text" name="searchTitle" value="@ViewData["CurrentFilter"]" />
-            Find by credit: <input type="number" name="searchCredits" value="@ViewData["CurrentFilter2"]" />
+<form asp-action="Index" asp-antiforgery="true" method="get">
+        <h4>Search By</h4>
+        <div class="box">
+            <div class="search">
+                <label asp-for="Title"></label>
+                <input name="Title" type="text" value="@ViewData["CurrentFilter"]"/>
+                <br />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            
+            <div class="search">
+                <label asp-for="Credit"></label>
+                <input name="Credit" type="number" value="@ViewData["CurrentFilter2"]"/>
+                <br />
+                <span asp-validation-for="Credit" class="text-danger"></span>
+            </div>
             <input type="submit" value="Search" class="btn btn-primary" />
-        </p>
-    </div>
+        </div>
 </form>
 
 <div class="tbl">
@@ -55,7 +69,7 @@
         </tr>
     </thead>
     <tbody class="opsi"> 
-@foreach (var item in Model) {
+@foreach (var item in paged) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -74,14 +88,16 @@
 </table>
 
 @{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var prevDisabled = !paged.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !paged.HasNextPage ? "disabled" : "";
 }
 
 
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-sortOrder="@ViewData["TitleSortParm"]"
+   asp-route-sortOrder="@ViewData["CreditSortParm"]"
+   asp-route-pageNumber="@(paged.PageIndex - 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    asp-route-currentFilter2="@ViewData["CurrentFilter2"]"
    class="btn btn btn-dark @prevDisabled">
@@ -89,7 +105,9 @@
 </a>
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-sortOrder="@ViewData["TitleSortParm"]"
+   asp-route-sortOrder="@ViewData["CreditSortParm"]"
+   asp-route-pageNumber="@(paged.PageIndex + 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    asp-route-currentFilter2="@ViewData["CurrentFilter2"]"
    class="btn btn btn-dark @nextDisabled">
