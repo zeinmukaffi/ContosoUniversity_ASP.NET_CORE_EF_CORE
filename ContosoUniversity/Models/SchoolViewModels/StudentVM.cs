@@ -24,28 +24,26 @@ namespace ContosoUniversity.Models.SchoolViewModels
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (FirstMidName == null)
+            if (FirstMidName == null && LastName == null && EnrollmentDateFrom == null && EnrollmentDateUntil == null)
             {
-                yield return new ValidationResult("input first name!", new[] { "FirstMidName" });
-                //Memberi validation jika sebuah kolom pencarian tidak diisi!
-            }
-            
-            if (LastName == null)
-            {
-                yield return new ValidationResult("input last name!", new[] { "LastName" });
+                yield return new ValidationResult("search minimal 1 data!");
                 //Memberi validation jika sebuah kolom pencarian tidak diisi!
             }
 
-            if (EnrollmentDateFrom == null)
+            if (EnrollmentDateFrom != null)
             {
-                yield return new ValidationResult("input date from!", new[] { "EnrollmentDateFrom" });
-                //Memberi validation ke variable yang dituju!
-            }
-            if (EnrollmentDateUntil == null)
-            {
+                if(EnrollmentDateUntil == null)
                 yield return new ValidationResult("input date until!", new[] { "EnrollmentDateUntil" });
                 //Memberi validation ke variable yang dituju!
             }
+            
+            if (EnrollmentDateUntil != null)
+            {
+                if(EnrollmentDateFrom == null)
+                yield return new ValidationResult("input date from!", new[] { "EnrollmentDateFrom" });
+                //Memberi validation ke variable yang dituju!
+            }
+   
         }
     }
 

@@ -33,19 +33,26 @@
 <h2>Contoso University - Courses</h2>
 <form asp-action="IndexProses" asp-antiforgery="true" method="get">
         <h4>Search By</h4>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="box">
             <div class="search">
                 <label asp-for="Title"></label>
                 <input name="Title" type="text" value="@ViewData["CurrentFilter"]"/>
                 <br />
-                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             
             <div class="search">
-                <label asp-for="Credit"></label>
-                <input name="Credit" type="number" value="@ViewData["CurrentFilter2"]"/>
+                <label asp-for="CreditFrom"></label>
+                <input name="CreditFrom" type="number" value="@ViewData["CurrentFilter2"]"/>
                 <br />
-                <span asp-validation-for="Credit" class="text-danger"></span>
+                <span asp-validation-for="CreditFrom" class="text-danger"></span>
+            </div>
+            
+            <div class="search">
+                <label asp-for="CreditUntil"></label>
+                <input name="CreditUntil" type="number" value="@ViewData["CurrentFilter3"]"/>
+                <br />
+                <span asp-validation-for="CreditUntil" class="text-danger"></span>
             </div>
             <input type="submit" value="Search" class="btn btn-primary" />
         </div>
@@ -100,6 +107,7 @@
    asp-route-pageNumber="@(paged.PageIndex - 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    asp-route-currentFilter2="@ViewData["CurrentFilter2"]"
+   asp-route-currentFilter3="@ViewData["CurrentFilter3"]"
    class="btn btn btn-dark @prevDisabled">
     Previous
 </a>
@@ -110,6 +118,7 @@
    asp-route-pageNumber="@(paged.PageIndex + 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    asp-route-currentFilter2="@ViewData["CurrentFilter2"]"
+   asp-route-currentFilter3="@ViewData["CurrentFilter3"]"
    class="btn btn btn-dark @nextDisabled">
     Next
 </a>

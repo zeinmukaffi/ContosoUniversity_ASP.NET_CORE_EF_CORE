@@ -35,7 +35,8 @@ namespace ContosoUniversity.Controllers
             CourseVM model,
             string sortOrder,
             string currentFilter,
-            string currentFilter2,
+            int? currentFilter2,
+            int? currentFilter3,
             int? pageNumber
             )
         {
@@ -52,17 +53,27 @@ namespace ContosoUniversity.Controllers
                 model.Title = currentFilter;
             }
 
-            if (model.Credit != null)
+            if (model.CreditFrom != null)
             {
                 pageNumber = 1;
             }
             else
             {
-                model.Credit = currentFilter2;
+                model.CreditFrom = currentFilter2;
+            }
+            
+            if (model.CreditUntil != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                model.CreditUntil = currentFilter3;
             }
 
             ViewData["CurrentFilter"] = model.Title;
-            ViewData["CurrentFilter2"] = model.Credit;
+            ViewData["CurrentFilter2"] = model.CreditFrom;
+            ViewData["CurrentFilter3"] = model.CreditUntil;
             var courses = from s in _context.Courses
                            select s;
 
@@ -71,9 +82,9 @@ namespace ContosoUniversity.Controllers
                 courses = courses.Where(s => s.Title.Contains(model.Title));
             }
 
-            if (!String.IsNullOrEmpty(model.Credit)) // search credit
+            if (model.CreditFrom != null && model.CreditUntil != null)
             {
-                courses = courses.Where(s => s.Credits.ToString().Contains(model.Credit));
+                courses = courses.Where(s => s.Credits >= model.CreditFrom && s.Credits <= model.CreditUntil);
             }
 
             courses = sortOrder switch
