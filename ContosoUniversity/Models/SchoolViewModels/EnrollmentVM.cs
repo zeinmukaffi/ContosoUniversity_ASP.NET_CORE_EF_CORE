@@ -3,16 +3,13 @@ using System.Xml.Linq;
 
 namespace ContosoUniversity.Models.SchoolViewModels
 {
-    //public enum Grades
-    //{
-    //    A, B, C, D, F
-    //}
+
     public class EnrollmentVM : IValidatableObject
     {
         public List<Enrollment> EnrollmentList { get; set; }
 
         [Display(Name = "Grade :")] // attribute
-        public string Grade { get; set; }
+        public Grade? Grade { get; set; }
 
         [Display(Name = "Course :")] // attribute
         public string Course { get; set; }        
@@ -23,22 +20,10 @@ namespace ContosoUniversity.Models.SchoolViewModels
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
 
-            if (Grade == null)
+            if (Grade == null && Course == null && Student == null)
             {
-                yield return new ValidationResult("input grade!", new[] { "Grade" });
+                yield return new ValidationResult("search minimal 1 data!");
                 //Memberi validation jika sebuah kolom pencarian tidak diisi!
-            }
-
-            if (Course == null)
-            {
-                yield return new ValidationResult("input course's name!", new[] { "Course" });
-                //Memberi validation ke variable yang dituju!
-            }
-            
-            if (Student == null)
-            {
-                yield return new ValidationResult("input student's name!", new[] { "Student" });
-                //Memberi validation ke variable yang dituju!
             }
         }
     }

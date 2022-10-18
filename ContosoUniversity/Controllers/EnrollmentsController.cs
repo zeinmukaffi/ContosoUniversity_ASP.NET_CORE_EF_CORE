@@ -23,17 +23,19 @@ namespace ContosoUniversity.Controllers
         // GET: Enrollments
         public async Task<ActionResult> Index(int? pageNumber)
         {
-            var enroll = _context.Enrollments;
+            var enroll = from s in _context.Enrollments.Include(e => e.Course).Include(e => e.Student)
+                         select s;
             EnrollmentVM model = new EnrollmentVM();
             int pageSize = 5;
             var paged = await PaginatedList<Enrollment>.CreateAsync(enroll.AsNoTracking(), pageNumber ?? 1, pageSize);
             ViewBag.enroll = paged;
+
+            ViewData["CourseID"] = new SelectList(_context.Courses, "Title", "Title");
             return View(model);
         }
         public async Task<IActionResult> IndexProses(
             string sortOrder,
             EnrollmentVM model,
-            Grade? searchGrade,
             Grade? currentFilter,
             string currentFilter2,
             string currentFilter3,
@@ -45,13 +47,13 @@ namespace ContosoUniversity.Controllers
             ViewData["CourseSortParm"] = sortOrder == "course" ? "course_desc" : "course";
             ViewData["GradeSortParm"] = sortOrder == "grade" ? "grade_desc" : "grade";
 
-            if (searchGrade != null)
+            if (model.Grade != null)
             {
                 pageNumber = 1;
             }
             else
             {
-                searchGrade = currentFilter;
+                model.Grade = currentFilter;
             }
 
             if (model.Course != null)
@@ -72,16 +74,18 @@ namespace ContosoUniversity.Controllers
                 model.Student = currentFilter3;
             }
 
-            ViewData["CurrentFilter"] = searchGrade;
+            ViewData["CurrentFilter"] = model.Grade;
             ViewData["CurrentFilter2"] = model.Course;
             ViewData["CurrentFilter3"] = model.Student;
+
+            ViewData["CourseID"] = new SelectList(_context.Courses, "Title", "Title");
 
             var enroll = from s in _context.Enrollments.Include(e => e.Course).Include(e => e.Student) 
                          select s;
 
-            if (searchGrade != null)
+            if (model.Grade != null)
             {
-                enroll = enroll.Where(s => s.Grade == searchGrade);
+                enroll = enroll.Where(s => s.Grade == model.Grade);
             }
             if (!String.IsNullOrEmpty(model.Course))
             {

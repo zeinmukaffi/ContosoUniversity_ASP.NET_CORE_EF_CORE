@@ -32,10 +32,11 @@
 <h2>Contoso University - Enrollments</h2>
 <form asp-action="IndexProses" asp-antiforgery="true" method="get">
         <h4>Search By</h4>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="box">
             <div class="search">
                 <label asp-for="Grade"></label>
-                <select name="searchGrade" asp-items="Html.GetEnumSelectList<Grade>()">
+                <select asp-for="Grade" asp-items="Html.GetEnumSelectList<Grade>()">
                     <option selected="selected">@ViewData["CurrentFilter"]</option>
                 </select>
                 <br />
@@ -44,7 +45,9 @@
             
             <div class="search">
                 <label asp-for="Course"></label>
-                <input name="Course" type="text" value="@ViewData["CurrentFilter2"]"/>
+                <select asp-for="Course" asp-items="ViewBag.CourseID">
+                   <option selected="selected" value="">@ViewData["CurrentFilter2"]</option>
+                </select>
                 <br />
                 <span asp-validation-for="Course" class="text-danger"></span>
             </div

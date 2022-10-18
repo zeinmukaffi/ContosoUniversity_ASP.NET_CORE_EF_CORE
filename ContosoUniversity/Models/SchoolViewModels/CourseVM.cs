@@ -28,13 +28,15 @@ namespace ContosoUniversity.Models.SchoolViewModels
 
             if (CreditFrom != null)
             {
-                yield return new ValidationResult("input range until!", new[] { "CreditUntil" });
+                if (CreditUntil == null)
+                    yield return new ValidationResult("input until range!", new[] { "CreditUntil" });
                 //Memberi validation ke variable yang dituju!
             }
-            
+
             if (CreditUntil != null)
             {
-                yield return new ValidationResult("input range from!", new[] { "CreditFrom" });
+                if (CreditFrom == null)
+                    yield return new ValidationResult("input from range!", new[] { "CreditFrom" });
                 //Memberi validation ke variable yang dituju!
             }
         }
