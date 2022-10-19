@@ -37,7 +37,7 @@ namespace ContosoUniversity.Controllers
             string currentFilter,
             string currentFilter2,
             DateTime? currentFilter3,
-            DateTime? currentFilter4, 
+            DateTime? currentFilter4,
             int? pageNumber
             )
         {

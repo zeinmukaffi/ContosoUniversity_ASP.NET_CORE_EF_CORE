@@ -75,13 +75,13 @@
         <thead>
             <tr class="table-light">
                 <th class="table-light">
-                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["FirstSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]" asp-route-currentFilter4="@ViewData["CurrentFilter4"]">First Name</a>
+                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["FirstSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]" asp-route-currentFilter4="@ViewData["CurrentFilter4"]">First Name <i class="fas fa-sort"></i></a>
                 </th>
                 <th>
-                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]" asp-route-currentFilter4="@ViewData["CurrentFilter4"]">Last Name</a>
+                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]" asp-route-currentFilter4="@ViewData["CurrentFilter4"]">Last Name <i class="fas fa-sort"></i></a>
                 </th>
                 <th>
-                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]" asp-route-currentFilter4="@ViewData["CurrentFilter4"]">Enrollment Date</a>
+                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]" asp-route-currentFilter4="@ViewData["CurrentFilter4"]">Enrollment Date <i class="fas fa-sort"></i></a>
                 </th>
                 <th>Opsi</th>
             </tr>
@@ -100,9 +100,9 @@
                         @Html.DisplayFor(modelItem => item.EnrollmentDate)
                     </td>
                     <td>
-                        <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                        <a class="btn btn-info text-white" asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.ID"><i class="fas fa-pen"></i></a> |
+                <a class="btn btn-info text-white" asp-action="Details" asp-route-id="@item.ID"><i class="fas fa-eye"></i></a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ID"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             }

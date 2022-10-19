@@ -36,7 +36,11 @@ namespace ContosoUniversity.Controllers
         public async Task<IActionResult> IndexProses(
             string sortOrder,
             EnrollmentVM model,
-            Grade? currentFilter,
+            bool currentFilterA,
+            bool currentFilterB,
+            bool currentFilterC,
+            bool currentFilterD,
+            bool currentFilterF,
             string currentFilter2,
             string currentFilter3,
             int? pageNumber
@@ -47,13 +51,45 @@ namespace ContosoUniversity.Controllers
             ViewData["CourseSortParm"] = sortOrder == "course" ? "course_desc" : "course";
             ViewData["GradeSortParm"] = sortOrder == "grade" ? "grade_desc" : "grade";
 
-            if (model.Grade != null)
+            if (model.A != null)
             {
                 pageNumber = 1;
             }
             else
             {
-                model.Grade = currentFilter;
+                model.A = currentFilterA;
+            }
+            if (model.B != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                model.B = currentFilterB;
+            }
+            if (model.C != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                model.C = currentFilterC;
+            }
+            if (model.D != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                model.D = currentFilterD;
+            }
+            if (model.F != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                model.F = currentFilterF;
             }
 
             if (model.Course != null)
@@ -74,18 +110,38 @@ namespace ContosoUniversity.Controllers
                 model.Student = currentFilter3;
             }
 
-            ViewData["CurrentFilter"] = model.Grade;
+            ViewData["CurrentFilterA"] = model.A;
+            ViewData["CurrentFilterB"] = model.B;
+            ViewData["CurrentFilterC"] = model.C;
+            ViewData["CurrentFilterD"] = model.D;
+            ViewData["CurrentFilterF"] = model.F;
             ViewData["CurrentFilter2"] = model.Course;
             ViewData["CurrentFilter3"] = model.Student;
 
             ViewData["CourseID"] = new SelectList(_context.Courses, "Title", "Title");
 
-            var enroll = from s in _context.Enrollments.Include(e => e.Course).Include(e => e.Student) 
+            var enroll = from s in _context.Enrollments.Include(e => e.Course).Include(e => e.Student)
                          select s;
 
-            if (model.Grade != null)
+            if (model.A == true)
             {
-                enroll = enroll.Where(s => s.Grade == model.Grade);
+                enroll = enroll.Where(s => s.Grade.Equals(Grade.A));
+            }
+            if (model.B == true)
+            {
+                enroll = enroll.Where(s => s.Grade.Equals(Grade.B));
+            }
+            if (model.C == true)
+            {
+                enroll = enroll.Where(s => s.Grade.Equals(Grade.C));
+            }
+            if (model.D == true)
+            {
+                enroll = enroll.Where(s => s.Grade.Equals(Grade.D));
+            }
+            if (model.F == true)
+            {
+                enroll = enroll.Where(s => s.Grade.Equals(Grade.F));
             }
             if (!String.IsNullOrEmpty(model.Course))
             {

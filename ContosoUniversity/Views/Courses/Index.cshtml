@@ -67,10 +67,10 @@
     <thead>
         <tr class="table-light">
             <th>
-                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["TitleSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Title</a>
+                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["TitleSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Title <i class="fas fa-sort"></i></a>
             </th>
             <th>
-                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["CreditSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Credits</a>
+                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["CreditSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Credits <i class="fas fa-sort"></i></a>
             </th>
             <th>Option</th>
         </tr>
@@ -85,9 +85,9 @@
                 @Html.DisplayFor(modelItem => item.Credits)
             </td>
             <td>
-                <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.CourseID">Edit</a> |
-                <a class="btn btn-info text-white" asp-action="Details" asp-route-id="@item.CourseID">Details</a> |
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CourseID">Delete</a>
+                <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.CourseID"><i class="fas fa-pen"></i></a> |
+                <a class="btn btn-info text-white" asp-action="Details" asp-route-id="@item.CourseID"><i class="fas fa-eye"></i></a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CourseID"><i class="fas fa-trash"></i></a>
             </td>
         </tr>
 }

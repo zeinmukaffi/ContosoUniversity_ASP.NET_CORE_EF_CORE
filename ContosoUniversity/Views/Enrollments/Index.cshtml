@@ -35,12 +35,17 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="box">
             <div class="search">
-                <label asp-for="Grade"></label>
-                <select asp-for="Grade" asp-items="Html.GetEnumSelectList<Grade>()">
-                    <option selected="selected">@ViewData["CurrentFilter"]</option>
-                </select>
+                    <label asp-for="A">A</label>
+                    <input asp-for="A" value="true" type="checkbox" />
+                    <label asp-for="B">B</label>
+                    <input asp-for="B" value="true" type="checkbox" />
+                    <label asp-for="C">C</label>
+                    <input asp-for="C" value="true" type="checkbox" />
+                    <label asp-for="D">D</label>
+                    <input asp-for="D" value="true" type="checkbox"/>
+                    <label asp-for="F">F</label>
+                    <input asp-for="F" value="true" type="checkbox">
                 <br />
-                <span asp-validation-for="Grade" class="text-danger"></span>
             </div>
             
             <div class="search">
@@ -49,14 +54,12 @@
                    <option selected="selected" value="">@ViewData["CurrentFilter2"]</option>
                 </select>
                 <br />
-                <span asp-validation-for="Course" class="text-danger"></span>
             </div
             
             ><div class="search">
                 <label asp-for="Student"></label>
                 <input name="Student" type="text" value="@ViewData["CurrentFilter3"]"/>
                 <br />
-                <span asp-validation-for="Student" class="text-danger"></span>
             </div>
             <input type="submit" value="Search" class="btn btn-primary" />
         </div>
@@ -71,13 +74,13 @@
     <thead>
         <tr class="table-light">
             <th>
-                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["GradeSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Grades</a><span class="e-icons e-chevron-up-fill"></span>
+                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["GradeSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Grades <i class="fas fa-sort"></i></a>
             </th>
             <th>
-                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["CourseSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Courses</a><span class="e-icons e-chevron-up-fill"></span>
+                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["CourseSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Courses <i class="fas fa-sort"></i></a>
             </th>
             <th>
-                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["StudentSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Students</a>
+                <a asp-action="IndexProses" asp-route-sortOrder="@ViewData["StudentSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]" asp-route-currentFilter3="@ViewData["CurrentFilter3"]">Students <i class="fas fa-sort"></i></a>
             </th>
             <th>Opsi</th>
         </tr>
@@ -96,9 +99,9 @@
                 @Html.DisplayFor(modelItem => item.Student.LastName)
             </td>
             <td>
-                <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.EnrollmentID">Edit</a> |
-                <a class="btn btn-info text-white" asp-action="Details" asp-route-id="@item.EnrollmentID">Details</a> |
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.EnrollmentID">Delete</a>
+                <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.EnrollmentID"><i class="fas fa-pen"></i></a> |
+                <a class="btn btn-info text-white" asp-action="Details" asp-route-id="@item.EnrollmentID"><i class="fas fa-eye"></i></a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.EnrollmentID"><i class="fas fa-trash"></i></a>
             </td>
         </tr>
 }
